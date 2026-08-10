@@ -146,6 +146,46 @@
         a:hover {
             color: #90caf9;
         }
+
+        /* Overlay shown when service is not available */
+        #geoBlockOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: #fff;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 2rem;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        #geoBlockOverlay h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        #geoBlockOverlay p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: #ddd;
+        }
+
+        #geoBlockOverlay button {
+            background-color: #64b5f6;
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -189,6 +229,13 @@
     <footer>
         <p>&copy; 2026 <a href="https://codeberg.org/GvYoutube">GvYoutube</a>/The LiteralVoIP developers</p>
     </footer>
+
+    <!-- Overlay for blocked locations -->
+    <div id="geoBlockOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <h2>Service not available in your location</h2>
+        <p>LiteralVoIP registration is only available in the United States and Canada.</p>
+        <div id="geoPlayControl"></div>
+    </div>
 
     <!-- Script to handle account creation (currently disabled) -->
     <script>
@@ -240,6 +287,56 @@
             e.preventDefault();
             errorMessage.style.display = 'block';
         });
+
+        // GEO-Blocking: If the user is not in US or CA, show a black overlay and play sound
+        (function() {
+            const overlay = document.getElementById('geoBlockOverlay');
+            const playControl = document.getElementById('geoPlayControl');
+
+            // Attempt to fetch visitor country using a public geolocation service.
+            // We use ipapi.co which returns JSON like { country_code: "US", ... }
+            fetch('https://ipapi.co/json/')
+                .then(response => response.ok ? response.json() : Promise.reject('geo-fail'))
+                .then(data => {
+                    const country = (data && data.country_code) ? String(data.country_code).toUpperCase() : null;
+
+                    if (country && country !== 'US' && country !== 'CA') {
+                        // Show overlay
+                        overlay.style.display = 'flex';
+                        overlay.setAttribute('aria-hidden', 'false');
+
+                        // Prevent interaction with the page
+                        document.documentElement.style.backgroundColor = '#000';
+                        document.body.style.backgroundColor = '#000';
+                        document.body.style.overflow = 'hidden';
+
+                        // Attempt to play the warning sound
+                        const audio = new Audio('/sounds/notAvailInLocation.wav');
+                        audio.loop = false;
+
+                        audio.play().catch((err) => {
+                            // Autoplay likely blocked. Provide a visible play button so user can start audio.
+                            const btn = document.createElement('button');
+                            btn.textContent = 'Play notice sound';
+                            btn.addEventListener('click', () => {
+                                audio.play().catch(() => {
+                                    // ignore further errors
+                                });
+                            });
+                            playControl.appendChild(btn);
+                        });
+
+                        // Additionally, make sure focus is on the overlay for accessibility
+                        overlay.tabIndex = -1;
+                        overlay.focus();
+                    }
+                })
+                .catch(() => {
+                    // If geolocation fails, do nothing (default to allowing page access)
+                    // Optionally, you could block if you prefer a stricter behavior
+                    console.warn('Geolocation lookup failed; allowing access by default.');
+                });
+        })();
     </script>
 </body>
 </html>
