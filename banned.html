@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Terminated - LiteralVoIP</title>
+    <link rel="icon" type="image/png" href="LiteralVoIP_mini.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #242424;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header img {
+            max-width: 280px;
+            height: auto;
+        }
+
+        main {
+            flex: 1;
+            padding: 3rem 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .banned-box {
+            width: 100%;
+            background-color: #b71c1c;
+            border: 1px solid #ef5350;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+        }
+
+        .banned-box h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .banned-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ffeaea;
+            margin-bottom: 1.5rem;
+        }
+
+        .logout-button {
+            background-color: #fff;
+            color: #b71c1c;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .logout-button:active {
+            transform: translateY(1px);
+        }
+
+        footer {
+            background-color: #242424;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        a {
+            color: #64b5f6;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: #90caf9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="LiteralVoIP_mini.png" alt="LiteralVoIP mini Logo">
+    </header>
+
+    <main>
+        <section class="banned-box" role="alert" aria-live="assertive">
+            <h1>Account Terminated</h1>
+            <p>
+              Your account has been terminated from using the LiteralVoIP service.
+              To find out why your account is terminated, or to appeal, please contact support@literalvoip.org.
+              You may not attempt to bypass this termination, or make a new account.
+              Please do not use another users' account (if you know them) or their account shall be terminated.
+            </p>
+            <a href="logout.html" class="logout-button">Log out</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 <a href="https://codeberg.org/GvYoutube">GvYoutube</a>/The LiteralVoIP developers</p>
+    </footer>
+</body>
+</html>
